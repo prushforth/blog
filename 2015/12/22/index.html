@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>The Open GeoWeb</title>
+</head>
+
+<body>
+    <h2>The Open GeoWeb</h2>
+    <p>Web standards are often contentious. I mean, why wouldn't they be? The idea that an externally defined standard
+        could
+        dictate the investment required for your company to participate in an activity would actually drive many company
+        executives to the antacid bottle daily. Yet, in many ways that's exactly how Web standards are negotiated.
+        Browser
+        vendors contend not over server API but over details of the document format that will be used to present and
+        allow
+        billions (or trillions?) of Web pages. I feel for them.
+    </p>
+    <p>So, what does that have to do with the "GeoWeb"? Maps have a long history on the Web, but despite that, and
+        despite the
+        fact that maps are everywhere on the Web, we still do not have a simple declarative element for showing or
+        interacting
+        with maps. Instead, you use any number of JavaScript libraries, nowadays most commonly (the excellent) Leaflet
+        or
+        (similarly excellent) OpenLayers. The &lt;map&gt; element, defined in early versions of HTML, and which remains
+        substantially
+        unchanged in the HTML standard today, does not respond to the community's need for declarative Web maps. Even
+        mapping libraries don't use the &lt;map&gt; element, and it would seem that Web standards evolution has bypassed
+        that
+        element altogether.</p>
+
+    <h2>What about SVG?</h2>
+
+    <p>SVG doesn't directly meet Web mapping needs. SVG is held out by some in both the Web community and spatial data
+        community as appropriate for Web mapping, yet its explicit use in Web mapping is today uncommon. More commonly,
+        in the application of modern mapping libraries, SVG (or canvas, or VML, depending on the browser) is employed
+        'under the hood' to present and style geographic features. As long as it is under the hood, who cares? It's the
+        map and feature semantics that are important when creating and otherwise interacting with maps. If the
+        application remembers that an SVG path it creates is actually a feature with a point geometry, it can process
+        the feature at need with point semantics. Using SVG for map creation directly, on the other hand, would be like
+        writing a document in PostScript: really really inefficient for most people. Ridiculous, right? We don't author
+        documents in PostScript, we let a translation layer create PostScript for us when appropriate, and usually, it's
+        a one-way trip. Similarly, a more efficient solution would be to apply a layered approach to mapping graphics,
+        whereby the content author "speaks map" (or even better "speaks HTML that includes mapping words") and the user
+        agent "translates to graphics" on the fly. Whether that translation goes via SVG or not is up to the
+        implementation. I suspect there might be a more efficient path to the graphics device subsystem than one
+        mediated by SVG.
+        I am being a little bit hard on SVG; the fact that SVG exists at all does give us a chance to bootstrap map
+        features across compliant browsers, thanks to Leaflet and OpenLayers.
+        Web mapping in the real world: map tiles + JavaScript + CSS +…</p>
+    <p>The core of what Leaflet, OpenLayers and other libraries offer, is access (by HTML/script authors) to responsive
+        Web maps built mostly on tiled image caches. Tile caches are the (sometimes enormous) collections of standard
+        images, of regular size and scale that can be composited to represent a window onto a map. The fact that these
+        caches can be composed to represent maps on the client is based on defacto but obscure, and domain-specific,
+        standards. This is accomplished through an effective "REST API", in the brain-dead sense of the term. Such APIs
+        will never become integral to the Web platform, because they are domain- or even server-specific.</p>
+    <p>The domain knowledge required to interpret these and other server spatial resources is currently built into the
+        aforementioned JavaScript libraries. In effect, the (JavaScript) client understands a diversity of server URL
+        patterns, and file formats, and spatial semantics built into those things. Of course each JavaScript library has
+        its own API, and associated learning curve.</p>
+    <p>That Web maps should be available through JavaScript alone is a testament to the incredible adaptability and
+        strength of the Web platform and its standards, not to mention the amazing performance of modern JavaScript
+        engines. That maps can only be available through JavaScript also shows that the mapping community has so far
+        missed the opportunity to scale their craft to Web scale. This situation obviously isn't good for the mapping
+        community, but it is also a weakness of the Web community, for the simple reason that the brilliant people and
+        strong organizations who bring you the libraries, technology, and standards of Web maps are not fully engaged in
+        building the Web platform.</p>
+    <h2>The Missing Map</h2>
+
+    <p>The Web platform's missing ingredient is an HTML element upon which the mapping and Web communities could agree,
+        and which would provide an API-level entry point for mapping applications into the Web platform. HTML authors
+        would be able to enhance their maps as their skill increases, through the application of script and libraries.
+        But, they should not have to start with libraries. Map making should be accessible to every skill level of HTML
+        author, from novice to expert.</p>
+    <p>Is such an element desirable? The answer depends on your perspective. If you're one of the aforementioned browser
+        executives with heartburn, maybe not. To begin with, it is a non-starter to suggest that domain-specific
+        standards be incorporated into the Web platform. The Web is simply too big, and such additions would soon sink
+        it with complexity.</p>
+    <p>If (some) Web mapping standards could be re-cast into a simple format that could be readily used by a native
+        element, it might make such a change more possible. Similar change has occurred in the past.</p>
+    <h2>Back to the &lt;map&gt;</h2>
+    <p>There is some discussion today about the need to upgrade the &lt;map&gt; element, in order to make it responsive. I
+            support that idea, but in addition to making the &lt;map&gt; element responsive, I suggest extending it to include
+                web mapping. Today's &lt;map&gt; element seems to have two types of application: site navigation from non-map
+                    images and site navigation from images of maps.</p>
+    <p>Admittedly, at least part of the attraction of extending the &lt;map&gt; element is the name of the element and its
+            common meaning, despite years of benign neglect in HTML. A less attractive option is an altogether new
+            element, for example "webmap", which would have a bit of a marketing challenge in addition to the technical
+            challenge, and which would not be progressively enhanceable, except (perhaps) through use of an img and
+            associated &lt;map&gt; element as a fallback mechanism. If we're going there, why not start and finish with a
+                &lt;map&gt; element?</p>
+    <h2>So, where is this GeoWeb of which you speak?</h2>
+    <p>Change, of any form, but more particularly in the form of a new format, might not at first be appealing to Web
+        mappers, either. When you think about it though, there isn't much of a "Web" in today's "GeoWeb". Today, there
+        are a few large map providers, serving maps essentially in one projection. They are more like information silos
+        than a Web.</p>
+    <p>What can a new format do that existing formats can't? We've had KML, and "Earth Browsers" for a long time now.
+        More recently, GeoJSON is all the rage. Why are those formats, or others not sufficient for Web mapping? The
+        answer is that they weren't designed for this purpose and consequently don't have the appropriate features.
+        They're constrained by their histories and philosophies, leaving them without the necessary characteristics, and
+        no way to add them in, even if one wanted to.</p>
+    <p>A new, purpose-built format is required with features including: (a) URL recipes should be passed over in favour
+        of URLs, (b) mapping and map concepts / semantics incorporated into document semantics, and (c) links which
+        enable content federation, just like the HTML Web. These are the proverbial "cow paths", that can be paved. But,
+        in the words of Erik Wilde: "if your paved cow path is kind of a detour, kindly explain to the cows why, and
+        maybe also explain why the detour is actually better".</p>
+    <p>Well OK. The cow paths in this little allegory include not only the server URL patterns, like those used by tile
+        caches, WMS, WFS, etc., but also the projections and data models for features and geometries. The destination of
+        those cow paths is the Web. The detour on our paved cow path, would be to package all those patterns into a
+        textual spatial format + media type, analagous to HTML, also including mechanisms similar to HTML's engine of
+        application state. OK, you say, but how is that in fact not a detour? To the extent that such a format would be
+        a new layer of processing in Web maps, it is indeed a detour, albeit one of a type shared by the Web at large.
+        What the GeoWeb borrows today in designed-by-domain convenience, it pays back with compound interest in the form
+        of unnecessarily restricted access to mapping.</p>
+    <p>What the GeoWeb needs to compete with today's silos of map content is to actually be a Web of maps. Map content
+        providers should be able to link their content together at the scales and locations appropriate to them. Map
+        content providers should be able to link into the GeoWeb as easily as an HTML author can link into today's Web
+        of content. HTML authors should be able to link into the GeoWeb (a.k.a. add a map to their site) as easily as
+        they link to Web content in their own or others' sites today. Web users should be able to browse from map
+        content site to map content site with as little friction as they encounter navigating linked content in today's
+        Web.</p>
+    <h2>Conclusion</h2>
+    <p>What the Web platform needs to compete / exist with other platforms today is more developers contributing to its
+        fabric. A real GeoWeb would enhance the Web platform, to the extent that it was compatible with Web
+        architecture, as well as because of the quality of engineering talent that exists in spatial software and
+        standards. Unfortunately, existing Geo-standards don't enhance the Web platform to any great degree, which is
+        why they mostly remain on the outside looking in.</p>
+    <p>In the spirit of "a picture is worth a thousand words", the Maps for HTML Community Group has built a prototype
+        Custom HTML Element, designed on top of a simple spatial format. Give it a test drive and let us know what you
+        think, or vote with your feet.</p>
+</body>
+
+</html>
